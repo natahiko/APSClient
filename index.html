@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Randomizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="loginpage">
+
+    <div id="login">
+        <div id="uncorect" class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Warning!</strong> Uncorect login or password
+        </div>
+        <div class="form-group">
+            <label for="login_log">Login: </label>
+            <input type="text" class="form-control" id="login_log">
+        </div>
+        <div class="form-group">
+            <label for="login_pass">Password: </label>
+            <input type="password" class="form-control" id="login_pass">
+        </div>
+        <button type="button" class="btn btn-success" onclick="doLogin()">Log in</button>
+        <button type="button" class="btn btn-outline-success right" onclick="showRegister()">Register</button>
+        <span class="right text">Don't have an account? </span>
+    </div>
+
+    <div id="register">
+        <div class="form-group">
+            <label for="reg_log">Login:</label>
+            <input type="text" class="form-control" id="reg_log">
+        </div>
+        <div class="form-group">
+            <label for="reg_name">Name:</label>
+            <input type="text" class="form-control" id="reg_name">
+        </div>
+        <div class="form-group">
+            <label for="reg_last">Last name:</label>
+            <input type="text" class="form-control" id="reg_last">
+        </div>
+        <div class="form-group">
+            <label for="reg_email">Email:</label>
+            <input type="text" class="form-control" id="reg_email">
+        </div>
+        <div class="form-group">
+            <label for="reg_pass">Password:</label>
+            <input type="password" class="form-control" id="reg_pass">
+        </div>
+        <div class="form-group">
+            <label for="reg_conf">Confirm password:</label>
+            <input type="password" class="form-control" id="reg_conf">
+        </div>
+        <button type="button" class="btn btn-success" onclick="doRegistration()">Register</button>
+        <button type="button" class="btn btn-outline-success right" onclick="showLogin()">Log in</button>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-right">
+            <a href="#!" class="btn btn-info">Show all users</a>
+        </div>
+        <div class="text-center">© 2019 "Kyiv-Mohyla Academy":
+            <a href="https://www.instagram.com/natahiko/"> Natalia Shkarovska</a>,
+            <a href="https://www.instagram.com/anneteka/"> Anna Karlysheva</a>
+        </div>
+    </footer>
+</div>
+
+<div id="workpage">
+    <div>
+        <form>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Min: </span>
+                </div>
+                <input id="min" type="number" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Max: </span>
+                </div>
+                <input id="max" type="number" class="form-control">
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="sendRandomRequest()">Get Randomize</button>
+        </form>
+    </div>
+    <footer class="footer">
+        <div class="container text-right">
+            <a href="#!" class="btn btn-info">My Last requests</a>
+            <a href="#!" class="btn btn-outline-info">Log out</a>
+        </div>
+        <div class="text-center">© 2019 "Kyiv-Mohyla Academy":
+            <a href="https://www.instagram.com/natahiko/"> Natalia Shkarovska</a>,
+            <a href="https://www.instagram.com/anneteka/"> Anna Karlysheva</a>
+        </div>
+    </footer>
+</div>
+
+
+<script src="js/main.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
