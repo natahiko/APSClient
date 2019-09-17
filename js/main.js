@@ -2,8 +2,9 @@ $(document).ready(function () {
     $("#workpage").hide();
     $("#register").hide();
     $("#uncorect").hide();
+    $("#randomer").hide();
 });
-URL = "http://localhost:5000";
+URL = "http://localhost:8080/random";
 
 function showRegister() {
     $("#register").show();
@@ -40,7 +41,17 @@ function sendRandomRequest() {
         return;
     }
     $.post(URL, {start: start, end: end}, function (data, status) {
-        alert("Data: " + data + "\nStatus: " + status);
+        if(status!="success") {
+            alert("There are some problems happens! Please, try again");
+            $("#randomer").hide();
+            return;
+        }
+        let array = JSON.parse("["+data+"]");
+        $("#randomer").show();
+        $("#randomer").empty();
+        for(let i=0; i<array.length; i++) {
+            $("#randomer").append("<option>"+array[i]+"</option>")
+        }
     });
 }
 
