@@ -15,19 +15,40 @@ function showLogin() {
     $("#register").hide();
 }
 function doRegistration() {
-    //TODO
-    showLogin();
+    var login = $("#reg_log").val();
+    var pass = $("#reg_pass").val();
+    var cpass = $("#reg_conf").val();
+    if(pass!=cpass)
+        return;
+    var name = $("#reg_name").val();
+    var surname = $("#reg_last").val();
+    var gmail = $("#reg_email").val();
+    $.post("http://localhost:8080/user", {login: login, pass: pass, name: name, surname: surname,
+        gmail: gmail}, function (data, status){
+        if(status!="200"){
+            alert("Something is wrong. Try again!");
+            return;
+        }
+        showLogin();
+    });
 }
 function doLogin() {
-    login = $("#login_log").val();
-    pass = $("#login_pass").val();
+    var login = $("#login_log").val();
+    var pass = $("#login_pass").val();
     if(login=="" || pass=="") {
         $("#uncorect").show();
         return;
     }
-    //TODO
-    $("#loginpage").hide();
-    $("#workpage").show();
+    $.post("http://localhost:8080/user", {login: login, pass: pass}, function (data, status){
+        if(status!="200"){
+            $("#login_pass").val("");
+            $("#uncorect").show();
+            return;
+        }
+        $("#loginpage").hide();
+        $("#workpage").show();
+        document.cookie['login'] = login;
+    });
 }
 function sendRandomRequest() {
     start = $("#min").val();
@@ -53,6 +74,13 @@ function sendRandomRequest() {
             $("#randomer").append("<option>"+array[i]+"</option>")
         }
     });
+}
+
+function logout(){
+    $("#workpage").hide();
+    $("#randomer").hide();
+    $("#loginpage").show();
+    showLogin();
 }
 
 $("#max").keyup(function () {
