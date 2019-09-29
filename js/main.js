@@ -39,15 +39,30 @@ function doLogin() {
         $("#uncorect").show();
         return;
     }
-    $.post("http://localhost:8080/user", {login: login, pass: pass}, function (data, status){
-        if(status!="200"){
-            $("#login_pass").val("");
-            $("#uncorect").show();
-            return;
+    // $.post("http://localhost:8080/login", {"username": "\""+login+"\"", "password": "\""+pass+"\""}, function (data, status){
+    //      if(status!="200"){
+    //          $("#login_pass").val("");
+    //          $("#uncorect").show();
+    //          return;
+    //      }
+    //      $("#loginpage").hide();
+    //      $("#workpage").show();
+    //      document.cookie['login'] = login;
+    // });
+    var data = JSON.stringify({username: login, password: pass});
+    $.ajax('http://localhost:8080/login',{
+        'data': "{\"username\":\"hello\", \"password\":\"world\"}",
+        'type': 'POST',
+        'dataType': 'json',
+        'processData': false,
+        'contentType': 'application/json',
+        'mimeType': 'application/json',
+        success: function (data, status) {
+            alert(status);
+        },
+        error:function (data, status) {
+            alert(data+" - "+status);
         }
-        $("#loginpage").hide();
-        $("#workpage").show();
-        document.cookie['login'] = login;
     });
 }
 function sendRandomRequest() {
