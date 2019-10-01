@@ -7,39 +7,48 @@
     text-align: center;
     vertical-align: center;
 }
-.footer .container{
+
+.footer .container {
     padding: 5px 0 5px 0;
     width: 100%;
 }
-.footer .container a{
+
+.footer .container a {
     margin-right: 15px;
 }
-.footer .text-center{
+
+.footer .text-center {
     background-color: rgb(204, 218, 255);
     padding: 5px;
 }
+
 .footer .text-center a {
     color: #1b1b1b;
     text-decoration: none;
 }
-.footer .text-center a:hover{
+
+.footer .text-center a:hover {
     font-weight: bold;
 }
-#login, #register, #workpage{
+
+#login, #register, #workpage {
     width: 50%;
     margin-left: 25%;
     margin-top: 10vh;
     margin-bottom: 50px;
 }
-.right{
+
+.right {
     float: right;
 }
-.text{
-    color: rgba(64,64,64,0.78);
+
+.text {
+    color: rgba(64, 64, 64, 0.78);
     vertical-align: center;
     margin-top: 5px;
     margin-right: 5px;
 }
-#randomer{
+
+#randomer {
     height: 30vh;
 }
