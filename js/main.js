@@ -32,7 +32,7 @@ function doRegistration() {
         return;
     }
     var name = $("#reg_name").val();
-    if (name == "" || !validateName(name)) {
+    if (name == "" || !validName(name)) {
         $("#reg_name").css('background-color', '#fabfc4');
         return;
     }
@@ -90,7 +90,11 @@ function doLogin() {
         success: function (data, status) {
             if (status == "success") {
                 set_cookie("username", login);
-                login();
+                $("#workpage").show();
+                $("#randomer").hide();
+                $("#loginpage").hide();
+                $("#login_log").val("");
+                $("#login_pass").val("");
             }
         },
         error: function (data, status) {
@@ -125,14 +129,6 @@ function sendRandomRequest() {
             $("#randomer").append("<option>" + array[i] + "</option>")
         }
     });
-}
-
-function login() {
-    $("#workpage").show();
-    $("#randomer").hide();
-    $("#loginpage").hide();
-    $("#login_log").val("");
-    $("#login_pass").val("");
 }
 
 function logout() {

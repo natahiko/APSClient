@@ -55,7 +55,7 @@ function validPass(pass) {
 }
 
 function validName(name) {
-    if (/^[a-zA-Z\u00C0-\u00ff]+$/.test(name))
-        return false;
-    return true;
+    if (/^[a-zA-ZА-Яа-я\u00C0-\u00ff]+$/.test(name))
+        return true;
+    return false;
 }

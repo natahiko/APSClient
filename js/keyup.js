@@ -2,6 +2,7 @@ $("#reg_log").keyup(function () {
     $("#reg_log").css('background-color', 'transparent');
 });
 $("#reg_name").keyup(function () {
+    closeErrAlert();
     var name = $("#reg_name").val();
     if (!validName(name)) {
         showWarningErr("<strong>Advise! </strong>Real name and surname can't contains number or characters!");
@@ -10,6 +11,7 @@ $("#reg_name").keyup(function () {
     $("#reg_name").css('background-color', 'transparent');
 });
 $("#reg_last").keyup(function () {
+    closeErrAlert();
     var name = $("#reg_last").val();
     if (!validName(name)) {
         showWarningErr("<strong>Advise! </strong>Real name and surname can't contains number or characters!");
