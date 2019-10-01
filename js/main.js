@@ -30,7 +30,7 @@ function doRegistration() {
         return;
     }
     var name = $("#reg_name").val();
-    if(name==""){
+    if(name=="" || !validateName(name)){
         $("#reg_name").css('background-color','#fabfc4');
         return;
     }
@@ -44,7 +44,10 @@ function doRegistration() {
         $("#reg_email").css('background-color','#fabfc4');
         return;
     }
-    if(pass!=cpass)
+    if(!validate(gmail)){
+        return;
+    }
+    if(pass!=cpass || !validPass(pass))
         return;
     $.ajax('http://localhost:8080/register',{
         'data': "{\"username\":\""+login+"\", \"password\":\""+pass+"\", \"name\":\""+name+"\", \"surname\":\""+surname+"\", \"email\":\""+gmail+"\"}",
@@ -90,11 +93,14 @@ function doLogin() {
                 $("#workpage").show();
                 $("#randomer").hide();
                 $("#loginpage").hide();
+                $("#login_log").val("");
+                $("#login_pass").val("");
             }
         },
         error:function (data, status) {
             $("#uncorect").show();
             $("#uncorect_text").html("<strong>Warning!</strong> Uncorect login or password");
+            $("#login_pass").val("");
         }
     });
 }
@@ -135,13 +141,32 @@ $("#reg_log").keyup(function () {
     $("#reg_log").css('background-color','transparent');
 });
 $("#reg_name").keyup(function () {
+    var name = $("#reg_name").val();
+    if(!validName(name)){
+        $("#uncorect").show();
+        $("#uncorect").removeClass("alert-danger");
+        $("#uncorect").addClass("alert-warning");
+        $("#uncorect").html("<strong>Advise! </strong>Real name and surname can't contains number or characters!");
+        $("#reg_name").css('background-color','#fadfcc');
+        return;
+    }
     $("#reg_name").css('background-color','transparent');
 });
 $("#reg_last").keyup(function () {
+    var name = $("#reg_last").val();
+    if(!validName(name)){
+        $("#uncorect").show();
+        $("#uncorect").removeClass("alert-danger");
+        $("#uncorect").addClass("alert-warning");
+        $("#uncorect").html("<strong>Advise! </strong>Real name and surname can't contains number or characters!");
+        $("#reg_last").css('background-color','#fadfcc');
+        return;
+    }
     $("#reg_last").css('background-color','transparent');
 });
 $("#reg_email").keyup(function () {
     $("#reg_email").css('background-color','transparent');
+    closeErrAlert();
 });
 $("#max").keyup(function () {
     $("#max").css('background-color','transparent');
@@ -152,6 +177,7 @@ $("#min").keyup(function () {
 function closeErrAlert(){
     $("#uncorect").hide();
     $("#uncorect").removeClass("alert-success");
+    $("#uncorect").removeClass("alert-warning");
     $("#uncorect").addClass("alert-danger");
 }
 $("#login_log").keyup(function () {
@@ -173,6 +199,15 @@ $("#reg_pass").keyup(function () {
     closeErrAlert();
     pass = $("#reg_pass").val();
     conf = $("#reg_conf").val();
+    if(!validPass(pass)){
+        $("#uncorect").show();
+        $("#uncorect").removeClass("alert-danger");
+        $("#uncorect").addClass("alert-warning");
+        $("#uncorect").html("<strong>Advise! </strong>Good password should have at least 8 characters, one Uppercase letter and a symbol!");
+        $("#reg_pass").css('background-color','#fadfcc');
+    } else{
+        $("#reg_pass").css('background-color','#dffae3');
+    }
     if(conf=="") return;
     if(pass==conf)
         $("#reg_conf").css('background-color','transparent');

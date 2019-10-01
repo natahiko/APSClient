@@ -33,3 +33,27 @@ function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure) {
 
     document.cookie = cookie_string;
 }
+function validate(email) {
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if(reg.test(email) == false) {
+        $("#uncorect").show();
+        $("#uncorect").html("Uncorrect email. Check it and try again!");
+        $("#reg_email").css('background-color','#fabfc4');
+        return false;
+    }
+    return true;
+}
+function validPass(pass) {
+    if(pass.length<8)
+        return false;
+    if(pass==pass.toLowerCase() && pass == pass.toUpperCase())
+        return false;
+    if(/^[a-zA-Z\u00C0-\u00ff]+$/.test(pass))
+        return false;
+    return true;
+}
+function validName(name) {
+    if(/^[a-zA-Z\u00C0-\u00ff]+$/.test(name))
+        return false;
+    return true;
+}
