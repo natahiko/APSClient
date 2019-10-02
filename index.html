@@ -91,7 +91,7 @@
     </div>
     <footer class="footer">
         <div class="container text-right">
-            <a href="#!" class="btn btn-info">My Last requests</a>
+            <a href="#!" class="btn btn-info" onclick="getAllRequests()">My Last requests</a>
             <a href="#!" class="btn btn-outline-info" onclick="logout()">Log out</a>
         </div>
         <div class="text-center">© 2019 "Kyiv-Mohyla Academy":
@@ -107,7 +107,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">All users of our system</h4>
+                <h4 class="modal-title" id="modal_title"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 

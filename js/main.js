@@ -62,14 +62,11 @@ function doRegistration() {
             if (status == "success") {
                 showLogin();
                 showSucceessErr("You registered success. Login to start!");
-            } else{
-                $("#uncorect").show();
-                $("#uncorect_text").html("<strong>Warning!</strong> User with such login already exist!");
             }
         },
-        error: function (data, status) {
+        error: function (data) {
+            $("#uncorect").html("<strong>Warning!</strong> User with such login already exist!");
             $("#uncorect").show();
-            $("#uncorect_text").html("<strong>Warning!</strong> User with such login already exist!");
         }
     });
 }
@@ -79,7 +76,7 @@ function doLogin() {
     var pass = $("#login_pass").val();
     if (login == "" || pass == "") {
         $("#uncorect").show();
-        $("#uncorect_text").html("<strong>Warning!</strong> Uncorect login or password");
+        $("#uncorect").html("<strong>Warning!</strong> Uncorect login or password");
         return;
     }
     var data = JSON.stringify({username: login, password: pass});
@@ -102,7 +99,7 @@ function doLogin() {
         },
         error: function (data, status) {
             $("#uncorect").show();
-            $("#uncorect_text").html("<strong>Warning!</strong> Uncorect login or password");
+            $("#uncorect").html("<strong>Warning!</strong> Uncorect login or password");
             $("#login_pass").val("");
         }
     });
@@ -147,7 +144,6 @@ function showWarningErr(mess) {
     $("#uncorect").removeClass("alert-danger");
     $("#uncorect").addClass("alert-warning");
     $("#uncorect").html(mess);
-    $("#reg_name").css('background-color', '#fadfcc');
 }
 
 function closeErrAlert() {
@@ -167,6 +163,7 @@ function showSucceessErr(mess) {
 
 function showAllUsers() {
     $.get(URL+'getAllUsers', function (data, status) {
+        $("#modal_title").html("All users of our system");
         if(data.length==0){
             $("#allUserInfo").html("Users not finded!");
             $("#myModal").modal("show");
@@ -177,6 +174,28 @@ function showAllUsers() {
             $("#allUserInfo").append("<div class='oneuserInall'><p><span class='login'>"+data[i]["username"]+"</span> (<span class='name'>"+data[i]["name"]+" "+data[i]["surname"]+"</span>)</p>" +
                 "<p class='gmail'>"+data[i]["email"]+"</p><hr></div>");
         }
+        $("#myModal").modal("show");
+    });
+}
+function getAllRequests() {
+    $.get(URL+'getAllRequests', {username: get_cookie("username")}, function (data, status) {
+        $("#modal_title").html("Your last requests, "+get_cookie("username")+": ");
+        if(data.length==0){
+            $("#allUserInfo").html("This User has no requests!");
+            $("#myModal").modal("show");
+            return;
+        }
+        $("#allUserInfo").html("<table class='requestTable'>");
+        $("#allUserInfo").append("<tr><th>Min: </th><th>Max: </th><th>Amount: </th><th>Date: </th></tr>");
+        for(let i=0; i<data.length; i++){
+            //TODO
+            data[i]["amount"] = data[i]["end"] - data[i]["start"];
+            data[i]["date"] = "23.03.2000";
+            $("#allUserInfo").append("<tr><td>"+data[i]["start"]+"</td><td>"+data[i]["end"]+"</td>" +
+                "<td>"+data[i]["amount"]+"</td><td>"+data[i]["date"]+"</td></tr>");
+        }
+
+        $("#allUserInfo").append("</table>");
         $("#myModal").modal("show");
     });
 }
