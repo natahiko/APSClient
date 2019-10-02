@@ -167,10 +167,15 @@ function showSucceessErr(mess) {
 
 function showAllUsers() {
     $.get(URL+'getAllUsers', function (data, status) {
+        if(data.length==0){
+            $("#allUserInfo").html("Users not finded!");
+            $("#myModal").modal("show");
+            return;
+        }
         $("#allUserInfo").html("");
         for(let i=0; i<data.length; i++){
-            $("#allUserInfo").append("<div class='oneuserInall'><p class='login'>"+data[i]["username"]+"</p><\hr><p class='name'>"+data[i]["name"]+" "+data[i]["surname"]+"</p>" +
-                "<p class='gmail'>"+data[i]["email"]+"</p></div>");
+            $("#allUserInfo").append("<div class='oneuserInall'><p><span class='login'>"+data[i]["username"]+"</span> (<span class='name'>"+data[i]["name"]+" "+data[i]["surname"]+"</span>)</p>" +
+                "<p class='gmail'>"+data[i]["email"]+"</p><hr></div>");
         }
         $("#myModal").modal("show");
     });
