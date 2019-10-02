@@ -62,11 +62,14 @@ function doRegistration() {
             if (status == "success") {
                 showLogin();
                 showSucceessErr("You registered success. Login to start!");
+            } else{
+                $("#uncorect").show();
+                $("#uncorect_text").html("<strong>Warning!</strong> User with such login already exist!");
             }
         },
         error: function (data, status) {
             $("#uncorect").show();
-            $("#uncorect_text").html("<strong>Warning!</strong> User with such login already exist! Or another mistake happens");
+            $("#uncorect_text").html("<strong>Warning!</strong> User with such login already exist!");
         }
     });
 }
@@ -116,7 +119,7 @@ function sendRandomRequest() {
         $("#max").css('background-color', '#fabfc4');
         return;
     }
-    $.post(URL, {start: start, end: end, username: get_cookie("username")}, function (data, status) {
+    $.post(URL+'random', {start: start, end: end, username: get_cookie("username")}, function (data, status) {
         if (status != "success") {
             alert("There are some problems happens! Please, try again");
             $("#randomer").hide();
@@ -159,4 +162,11 @@ function showSucceessErr(mess) {
     $("#uncorect").html(mess);
     $("#uncorect").removeClass("alert-danger");
     $("#uncorect").addClass("alert-success");
+}
+
+function showAllUsers() {
+    $.get(URL+'getAllUsers', function (data, status) {
+        $("#allUserInfo").html("data");
+        $("#myModal").modal("show");
+    });
 }
