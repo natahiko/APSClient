@@ -57,11 +57,11 @@
         <button type="button" class="btn btn-success" onclick="doRegistration()">Register</button>
         <button type="button" class="btn btn-outline-success right" onclick="showLogin()">Log in</button>
     </div>
-
+    <div id="showalluser" class="container text-right">
+        <button type="button" href="#!" class="btn btn-info" onclick="showAllUsers()">Show all users</button>
+    </div>
     <footer class="footer">
-        <div class="container text-right">
-            <a href="#!" class="btn btn-info">Show all users</a>
-        </div>
+
         <div class="text-center">© 2019 "Kyiv-Mohyla Academy":
             <a href="https://www.instagram.com/natahiko/"> Natalia Shkarovska</a>,
             <a href="https://www.instagram.com/anneteka/"> Anna Karlysheva</a>
@@ -101,6 +101,24 @@
     </footer>
 </div>
 
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">All users of our system</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body" id="allUserInfo"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <script src="js/main.js"></script>
 <script src="js/cookie.js"></script>
