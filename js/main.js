@@ -164,9 +164,15 @@ function showSucceessErr(mess) {
     $("#uncorect").addClass("alert-success");
 }
 
+
 function showAllUsers() {
     $.get(URL+'getAllUsers', function (data, status) {
-        $("#allUserInfo").html("data");
+        $("#allUserInfo").html("");
+        for(let i=0; i<data.length; i++){
+            $("#allUserInfo").append("<div class='oneuserInall'><p class='login'>"+data[i]["username"]+"</p><\hr><p class='name'>"+data[i]["name"]+" "+data[i]["surname"]+"</p>" +
+                "<p class='gmail'>"+data[i]["email"]+"</p></div>");
+        }
         $("#myModal").modal("show");
     });
 }
+
