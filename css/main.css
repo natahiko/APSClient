@@ -66,7 +66,13 @@
 .right {
     float: right;
 }
-
+#randomPict{
+    height: 40vh;
+}
+#randomPict .pick{
+    width: 80%;
+    height: 100%;
+}
 .text {
     color: rgba(64, 64, 64, 0.78);
     vertical-align: center;
@@ -75,7 +81,9 @@
 }
 
 #randomer {
-    height: 30vh;
+    min-height: 30vh;
+    height: 40vh;
+    max-height: 50vh;
 }
 table{
     width: 100%;

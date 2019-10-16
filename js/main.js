@@ -3,6 +3,7 @@ $(document).ready(function () {
     $("#register").hide();
     $("#uncorect").hide();
     $("#randomer").hide();
+    $("#randomPict").hide();
 });
 URL = "http://localhost:8080/";
 
@@ -116,6 +117,24 @@ function sendRandomRequest() {
         $("#max").css('background-color', '#fabfc4');
         return;
     }
+    if(end-start>1000)
+        $("#randomer").hide();
+    $("#randomPict").show();
+    $.ajax({
+        url: URL+'random?start='+start+'&end='+end+'&username='+get_cookie("username"),
+        type: "POST",
+        timeout: 3000,
+        success: function(data) {
+            $("#randomer").empty();
+            $("#randomer").text(data);
+            $("#randomPict").hide();
+            $("#randomer").show();
+        },
+        error: function(err) {
+                alert(err["error"]);
+        }
+    });
+    /*
     $.post(URL+'random', {start: start, end: end, username: get_cookie("username")}, function (data, status) {
         if (status != "success") {
             alert("There are some problems happens! Please, try again");
@@ -128,7 +147,7 @@ function sendRandomRequest() {
         for (let i = 0; i < array.length; i++) {
             $("#randomer").append("<option>" + array[i] + "</option>")
         }
-    });
+    });*/
 }
 
 function logout() {
