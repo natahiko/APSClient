@@ -4,6 +4,7 @@ $(document).ready(function () {
     $("#uncorect").hide();
     $("#randomer").hide();
     $("#randomPict").hide();
+    $("#loadingPict").hide();
 });
 URL = "http://localhost:8080/";
 
@@ -63,13 +64,17 @@ function doRegistration() {
             if (status == "success") {
                 showLogin();
                 showSucceessErr("You registered success. Login to start!");
+                $("#loadingPict").hide();
             }
         },
         error: function (data) {
             $("#uncorect").html("<strong>Warning!</strong> User with such login already exist!");
             $("#uncorect").show();
+            $("#loadingPict").hide();
         }
     });
+
+    $("#loadingPict").show();
 }
 
 function doLogin() {
@@ -96,6 +101,8 @@ function doLogin() {
                 $("#loginpage").hide();
                 $("#login_log").val("");
                 $("#login_pass").val("");
+
+                $("#loadingPict").hide();
             }
         },
         error: function (data, status) {
@@ -104,6 +111,8 @@ function doLogin() {
             $("#login_pass").val("");
         }
     });
+
+    $("#loadingPict").show();
 }
 
 function sendRandomRequest() {
@@ -119,7 +128,6 @@ function sendRandomRequest() {
     }
     if(end-start>1000)
         $("#randomer").hide();
-    $("#randomPict").show();
     $.ajax({
         url: URL+'random?start='+start+'&end='+end+'&username='+get_cookie("username"),
         type: "POST",
@@ -134,6 +142,7 @@ function sendRandomRequest() {
                 alert(err["error"]);
         }
     });
+    $("#randomPict").show();
     /*
     $.post(URL+'random', {start: start, end: end, username: get_cookie("username")}, function (data, status) {
         if (status != "success") {
@@ -181,41 +190,43 @@ function showSucceessErr(mess) {
 
 
 function showAllUsers() {
+    $("#modal_title").html("All users of our system");
+    $("#allUserInfo").html("<img src='files/load.gif'>");
+    $("#myModal").modal("show");
     $.get(URL+'getAllUsers', function (data, status) {
-        $("#modal_title").html("All users of our system");
         if(data.length==0){
             $("#allUserInfo").html("Users not finded!");
-            $("#myModal").modal("show");
             return;
         }
-        $("#allUserInfo").html("");
+        var allText = "";
         for(let i=0; i<data.length; i++){
-            $("#allUserInfo").append("<div class='oneuserInall'><p><span class='login'>"+data[i]["username"]+"</span> (<span class='name'>"+data[i]["name"]+" "+data[i]["surname"]+"</span>)</p>" +
-                "<p class='gmail'>"+data[i]["email"]+"</p><hr></div>");
+            allText+="<div class='oneuserInall'><p><span class='login'>"+data[i]["username"]+"</span> (<span class='name'>"+data[i]["name"]+" "+data[i]["surname"]+"</span>)</p>" +
+                "<p class='gmail'>"+data[i]["email"]+"</p><hr></div>";
         }
+        $("#allUserInfo").html(allText);
         $("#myModal").modal("show");
     });
 }
 function getAllRequests() {
+    $("#modal_title").html("Your last requests, <span class='nameInRequests'>"+get_cookie("username")+"</span>: ");
+    $("#allUserInfo").html("<img src='files/load.gif'>");
+    $("#myModal").modal("show");
     $.get(URL+'getAllRequests', {username: get_cookie("username")}, function (data, status) {
-        $("#modal_title").html("Your last requests, "+get_cookie("username")+": ");
         if(data.length==0){
             $("#allUserInfo").html("This User has no requests!");
-            $("#myModal").modal("show");
             return;
         }
-        $("#allUserInfo").html("<table class='requestTable'>");
-        $("#allUserInfo").append("<tr><th>Min: </th><th>Max: </th><th>Amount: </th><th>Date: </th></tr>");
+        var allText = "<table class='requestTable'>";
+        allText += "<tr><th>Min: </th><th>Max: </th><th>Amount: </th><th>Date: </th></tr>";
         for(let i=0; i<data.length; i++){
             //TODO
             data[i]["amount"] = data[i]["end"] - data[i]["start"];
             data[i]["date"] = "23.03.2000";
-            $("#allUserInfo").append("<tr><td>"+data[i]["start"]+"</td><td>"+data[i]["end"]+"</td>" +
-                "<td>"+data[i]["amount"]+"</td><td>"+data[i]["date"]+"</td></tr>");
+            allText += "<tr><td>"+data[i]["start"]+"</td><td>"+data[i]["end"]+"</td>" +
+                "<td>"+data[i]["amount"]+"</td><td>"+data[i]["date"]+"</td></tr>";
         }
-
-        $("#allUserInfo").append("</table>");
+        allText += "</table>";
+        $("#allUserInfo").html(allText);
         $("#myModal").modal("show");
     });
 }
-

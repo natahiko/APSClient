@@ -93,3 +93,13 @@ th, td {
     border: 1px solid black;
     padding: 5px;
 }
+.nameInRequests{
+    text-decoration: underline;
+    color: #4b0076;
+    font-weight: bolder;
+    font-style: italic;
+}
+#loadingPict{
+    width: 50vw;
+    margin-left: 25vw;
+}
