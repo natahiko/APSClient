@@ -1,5 +1,5 @@
 
-var encryptionKey  = "Abcdefghijklmnop";
+var encryptionKey  = "";
 var iterationCount = 1000;
 var keySize = 128;
 var iv = "dc0da04af8fee58593442bf834b30739";
@@ -7,7 +7,7 @@ var salt = "dc0da04af8fee58593442bf834b30739";
 fillKey();
 
 function fillKey() {
-    jQuery.get('js/lib/key/file.txt', function(data) {
+    jQuery.get('files/key/file.txt', function(data) {
         encryptionKey = data;
     });
 }
