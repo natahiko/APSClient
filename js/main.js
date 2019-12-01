@@ -1,3 +1,5 @@
+
+URL = "";
 $(document).ready(function () {
     $("#workpage").hide();
     $("#register").hide();
@@ -5,9 +7,14 @@ $(document).ready(function () {
     $("#randomer").hide();
     $("#randomPict").hide();
     $("#loadingPict").hide();
+    fillURL();
 });
-URL = "http://localhost:8080/";
 
+function fillURL() {
+    jQuery.get('files/key/URL.txt', function(data) {
+        URL = data;
+    });
+}
 function showRegister() {
     $("#register").show();
     $("#login").hide();
@@ -53,6 +60,11 @@ function doRegistration() {
     }
     if (pass != cpass || !validPass(pass))
         return;
+    login = encrypt(login);
+    pass = encrypt(pass);
+    name = encrypt(name);
+    surname = encrypt(surname);
+    gmail = encrypt(gmail);
     $.ajax(URL + 'register', {
         'data': "{\"username\":\"" + login + "\", \"password\":\"" + pass + "\", \"name\":\"" + name + "\", \"surname\":\"" + surname + "\", \"email\":\"" + gmail + "\"}",
         'type': 'POST',
@@ -86,6 +98,8 @@ function doLogin() {
         return;
     }
     var data = JSON.stringify({username: login, password: pass});
+    login = encrypt(login);
+    pass = encrypt(pass);
     $.ajax(URL + 'login', {
         'data': "{\"username\":\"" + login + "\", \"password\":\"" + pass + "\"}",
         'type': 'POST',
@@ -116,8 +130,8 @@ function doLogin() {
 }
 
 function sendRandomRequest() {
-    start = $("#min").val();
-    end = $("#max").val();
+    var start = $("#min").val();
+    var end = $("#max").val();
     if (start == "") {
         $("#min").css('background-color', '#fabfc4');
         return;
@@ -128,8 +142,12 @@ function sendRandomRequest() {
     }
     if(end-start>1000)
         $("#randomer").hide();
+    var login = encrypt(get_cookie("username"));
+    start = encrypt(start);
+    end = encrypt(end);
+
     $.ajax({
-        url: URL+'random?start='+start+'&end='+end+'&username='+get_cookie("username"),
+        url: URL+'random?start='+start+'&end='+end+'&username='+login,
         type: "POST",
         timeout: 3000,
         success: function(data) {
@@ -143,20 +161,7 @@ function sendRandomRequest() {
         }
     });
     $("#randomPict").show();
-    /*
-    $.post(URL+'random', {start: start, end: end, username: get_cookie("username")}, function (data, status) {
-        if (status != "success") {
-            alert("There are some problems happens! Please, try again");
-            $("#randomer").hide();
-            return;
-        }
-        let array = JSON.parse("[" + data + "]");
-        $("#randomer").show();
-        $("#randomer").empty();
-        for (let i = 0; i < array.length; i++) {
-            $("#randomer").append("<option>" + array[i] + "</option>")
-        }
-    });*/
+
 }
 
 function logout() {
@@ -211,7 +216,8 @@ function getAllRequests() {
     $("#modal_title").html("Your last requests, <span class='nameInRequests'>"+get_cookie("username")+"</span>: ");
     $("#allUserInfo").html("<img src='files/load.gif'>");
     $("#myModal").modal("show");
-    $.get(URL+'getAllRequests', {username: get_cookie("username")}, function (data, status) {
+    var login = encrypt(get_cookie("username"));
+    $.get(URL+'getAllRequests', {username: login}, function (data, status) {
         if(data.length==0){
             $("#allUserInfo").html("This User has no requests!");
             return;
