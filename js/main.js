@@ -60,11 +60,6 @@ function doRegistration() {
     }
     if (pass != cpass || !validPass(pass))
         return;
-    login = encrypt(login);
-    pass = encrypt(pass);
-    name = encrypt(name);
-    surname = encrypt(surname);
-    gmail = encrypt(gmail);
     $.ajax(URL + 'register', {
         'data': "{\"username\":\"" + login + "\", \"password\":\"" + pass + "\", \"name\":\"" + name + "\", \"surname\":\"" + surname + "\", \"email\":\"" + gmail + "\"}",
         'type': 'POST',
@@ -142,12 +137,9 @@ function sendRandomRequest() {
     }
     if(end-start>1000)
         $("#randomer").hide();
-    var login = encrypt(get_cookie("username"));
-    start = encrypt(start);
-    end = encrypt(end);
 
     $.ajax({
-        url: URL+'random?start='+start+'&end='+end+'&username='+login,
+        url: URL+'random?start='+start+'&end='+end+'&username='+get_cookie("username"),
         type: "POST",
         timeout: 3000,
         success: function(data) {
@@ -216,8 +208,7 @@ function getAllRequests() {
     $("#modal_title").html("Your last requests, <span class='nameInRequests'>"+get_cookie("username")+"</span>: ");
     $("#allUserInfo").html("<img src='files/load.gif'>");
     $("#myModal").modal("show");
-    var login = encrypt(get_cookie("username"));
-    $.get(URL+'getAllRequests', {username: login}, function (data, status) {
+    $.get(URL+'getAllRequests', {username: get_cookie("username")}, function (data, status) {
         if(data.length==0){
             $("#allUserInfo").html("This User has no requests!");
             return;
@@ -225,7 +216,6 @@ function getAllRequests() {
         var allText = "<table class='requestTable'>";
         allText += "<tr><th>Min: </th><th>Max: </th><th>Amount: </th><th>Date: </th></tr>";
         for(let i=0; i<data.length; i++){
-            //TODO
             data[i]["amount"] = data[i]["end"] - data[i]["start"];
             data[i]["date"] = "23.03.2000";
             allText += "<tr><td>"+data[i]["start"]+"</td><td>"+data[i]["end"]+"</td>" +
