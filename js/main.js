@@ -16,12 +16,19 @@ function fillURL() {
     });
 }
 function showRegister() {
+
     $("#register").show();
     $("#login").hide();
     closeErrAlert();
 }
 
 function showLogin() {
+    $("#reg_log").val();
+    $("#reg_name").val();
+    $("#reg_last").val();
+    $("#reg_email").val();
+    $("#reg_pass").val();
+    $("#reg_conf").val();
     $("#login").show();
     $("#register").hide();
     closeErrAlert();
@@ -60,11 +67,7 @@ function doRegistration() {
     }
     if (pass != cpass || !validPass(pass))
         return;
-    login = encrypt(login);
-    pass = encrypt(pass);
-    name = encrypt(name);
-    surname = encrypt(surname);
-    gmail = encrypt(gmail);
+    var bol = true;
     $.ajax(URL + 'register', {
         'data': "{\"username\":\"" + login + "\", \"password\":\"" + pass + "\", \"name\":\"" + name + "\", \"surname\":\"" + surname + "\", \"email\":\"" + gmail + "\"}",
         'type': 'POST',
@@ -73,6 +76,7 @@ function doRegistration() {
         'contentType': 'application/json',
         'mimeType': 'application/json',
         success: function (data, status) {
+            bol = false;
             if (status == "success") {
                 showLogin();
                 showSucceessErr("You registered success. Login to start!");
@@ -80,13 +84,17 @@ function doRegistration() {
             }
         },
         error: function (data) {
+            bol = false;
             $("#uncorect").html("<strong>Warning!</strong> User with such login already exist!");
             $("#uncorect").show();
             $("#loadingPict").hide();
         }
     });
 
-    $("#loadingPict").show();
+    setTimeout(function(){
+        if(bol)
+            $("#loadingPict").show();
+    }, 1000);
 }
 
 function doLogin() {
@@ -98,8 +106,6 @@ function doLogin() {
         return;
     }
     var data = JSON.stringify({username: login, password: pass});
-    login = encrypt(login);
-    pass = encrypt(pass);
     $.ajax(URL + 'login', {
         'data': "{\"username\":\"" + login + "\", \"password\":\"" + pass + "\"}",
         'type': 'POST',
@@ -142,25 +148,27 @@ function sendRandomRequest() {
     }
     if(end-start>1000)
         $("#randomer").hide();
-    var login = encrypt(get_cookie("username"));
-    start = encrypt(start);
-    end = encrypt(end);
-
+    var bol = true;
     $.ajax({
-        url: URL+'random?start='+start+'&end='+end+'&username='+login,
+        url: URL+'random?start='+start+'&end='+end+'&username='+get_cookie("username"),
         type: "POST",
         timeout: 3000,
         success: function(data) {
+            bol = false;
             $("#randomer").empty();
             $("#randomer").text(data);
             $("#randomPict").hide();
             $("#randomer").show();
         },
         error: function(err) {
-                alert(err["error"]);
+            bol = false;
+            alert(err["error"]);
         }
     });
-    $("#randomPict").show();
+    setTimeout(function(){
+        if(bol)
+            $("#randomPict").show();
+    }, 1000);
 
 }
 
@@ -196,8 +204,8 @@ function showSucceessErr(mess) {
 
 function showAllUsers() {
     $("#modal_title").html("All users of our system");
-    $("#allUserInfo").html("<img src='files/load.gif'>");
     $("#myModal").modal("show");
+    var bol = true;
     $.get(URL+'getAllUsers', function (data, status) {
         if(data.length==0){
             $("#allUserInfo").html("Users not finded!");
@@ -208,16 +216,20 @@ function showAllUsers() {
             allText+="<div class='oneuserInall'><p><span class='login'>"+data[i]["username"]+"</span> (<span class='name'>"+data[i]["name"]+" "+data[i]["surname"]+"</span>)</p>" +
                 "<p class='gmail'>"+data[i]["email"]+"</p><hr></div>";
         }
+        bol = false;
         $("#allUserInfo").html(allText);
         $("#myModal").modal("show");
     });
+    setTimeout(function(){
+        if(bol)
+            $("#allUserInfo").html("<img src='files/load.gif'>");
+    }, 1000);
 }
 function getAllRequests() {
     $("#modal_title").html("Your last requests, <span class='nameInRequests'>"+get_cookie("username")+"</span>: ");
-    $("#allUserInfo").html("<img src='files/load.gif'>");
     $("#myModal").modal("show");
-    var login = encrypt(get_cookie("username"));
-    $.get(URL+'getAllRequests', {username: login}, function (data, status) {
+    var bol = true;
+    $.get(URL+'getAllRequests', {username: get_cookie("username")}, function (data, status) {
         if(data.length==0){
             $("#allUserInfo").html("This User has no requests!");
             return;
@@ -225,14 +237,19 @@ function getAllRequests() {
         var allText = "<table class='requestTable'>";
         allText += "<tr><th>Min: </th><th>Max: </th><th>Amount: </th><th>Date: </th></tr>";
         for(let i=0; i<data.length; i++){
-            //TODO
             data[i]["amount"] = data[i]["end"] - data[i]["start"];
             data[i]["date"] = "23.03.2000";
             allText += "<tr><td>"+data[i]["start"]+"</td><td>"+data[i]["end"]+"</td>" +
                 "<td>"+data[i]["amount"]+"</td><td>"+data[i]["date"]+"</td></tr>";
         }
         allText += "</table>";
+        bol = false;
         $("#allUserInfo").html(allText);
         $("#myModal").modal("show");
     });
+
+    setTimeout(function(){
+        if(bol)
+            $("#allUserInfo").html("<img src='files/load.gif'>");
+    }, 1000);
 }
